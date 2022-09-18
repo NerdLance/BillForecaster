@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/bills', [BillController::class, 'index'])->middleware(['auth']);
+
+Route::get('/bills/create', [BillController::class, 'create'])->middleware(['auth'])->name('bills-create');
+
+Route::post('/bills', [BillController::class, 'store'])->middleware(['auth'])->name('bills-store');
 
 require __DIR__.'/auth.php';
