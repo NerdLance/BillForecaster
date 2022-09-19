@@ -22,7 +22,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/bills', [BillController::class, 'index'])->middleware(['auth']);
+Route::get('/bills', [BillController::class, 'index'])->middleware(['auth'])->name('bills-index');
 
 Route::get('/bills/create', [BillController::class, 'create'])->middleware(['auth'])->name('bills-create');
 

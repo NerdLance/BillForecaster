@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('title');
             $table->string('description')->nullable();
-            $table->float('cost');
+            $table->float('cost')->nullable();
             $table->string('recurrance');
             $table->string('start');
             $table->timestamps();

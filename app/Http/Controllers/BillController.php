@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -10,7 +11,9 @@ class BillController extends Controller
     //
 
     public function index() {
-        return view('bills.index');
+        return view('bills.index', [
+            'bills' => auth()->user()->bills()->get()
+        ]);
     }
 
     public function create() {
