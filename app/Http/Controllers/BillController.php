@@ -11,8 +11,43 @@ class BillController extends Controller
     //
 
     public function index() {
+        $billsSuffix = [
+            'one time' => 'once',
+            'daily' => 'day',
+            'weekly' => 'week',
+            'monthly' => 'month',
+            'quarterly' => 'quarter',
+            'yearly' => 'year'
+        ];
+
+        $bills = auth()->user()->bills()->get();
+
+        $billsNextDates = [];
+
+        foreach ($bills as $bill) {
+            $dateDay = date('j');
+            $dateMonth = date('n');
+            $dateYear = date('Y');
+            $dateFull = $dateYear . "-" . $dateMonth . "-" . $dateDay;
+
+            $timeBetween = '';
+            if (strtotime($bill->start) > strtotime($dateFull)) {
+                $now = time();
+                $next = strtotime($bill->start);
+                $timeDiff = $next - $now;
+
+                $timeBetween = round($timeDiff / (60 * 60 * 24)) . ' days';
+            } else {
+                $timeBetween = 'Calculating';
+            }
+
+            $billsNextDates[$bill->id] = $timeBetween;
+        }
+
         return view('bills.index', [
-            'bills' => auth()->user()->bills()->get()
+            'bills' => $bills,
+            'bills_suffix' => $billsSuffix,
+            'bills_next' => $billsNextDates
         ]);
     }
 
@@ -25,7 +60,11 @@ class BillController extends Controller
             'title' => 'required',
             'cost' => ['required', 'numeric'],
             'recurrance' => ['required', 'in:daily,weekly,monthly,quarterly,yearly'],
-            'start' => ['required', 'date']
+            'start' => ['required', 'date'],
+            'weekly_day' => [
+                'required_if:recurrance,weekly', 
+                'in:,sunday,monday,tuesday,wednesday,thursday,friday,saturday'
+            ]
         ]);
 
         $formFields['user_id'] = auth()->id();

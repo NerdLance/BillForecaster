@@ -21,6 +21,7 @@ return new class extends Migration
             $table->float('cost')->nullable();
             $table->string('recurrance');
             $table->string('start');
+            $table->string('weekly_day')->nullable();
             $table->timestamps();
         });
     }

@@ -12,10 +12,12 @@
                     @unless ($bills->isEmpty())
                         <div class='grid grid-cols-1 md:grid-cols-4 gap-4'>
                             @foreach ($bills as $bill)
-                                <div class='border rounded border-gray-300 p-4 mb-4'>
+                                <div class='border rounded border-gray-300 p-4 mb-4 hover:shadow-md transition-all'>
                                     <p class='text-xl'>{{ $bill->title }}</p>
-                                    <p>{{ $bill->cost }}</p>
+                                    <p>{{ "$" . $bill->cost . " / " . $bills_suffix[$bill->recurrance]}}</p>
                                     <p>{{ $bill->start }}</p>
+                                    <p>Next: {{ $bills_next[$bill->id] }}</p>
+                                    <p>Timezone: {{ date_default_timezone_get() }}</p>
                                 </div>
                             @endforeach
                         </div>
