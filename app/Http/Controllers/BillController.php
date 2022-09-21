@@ -12,7 +12,7 @@ class BillController extends Controller
 
     public function index() {
         $billsSuffix = [
-            'one time' => 'once',
+            'one' => 'once',
             'daily' => 'day',
             'weekly' => 'week',
             'monthly' => 'month',
@@ -71,5 +71,11 @@ class BillController extends Controller
 
         Bill::create($formFields);
         return redirect('/bills')->with('message', 'Bill Successfully Added.');
+    }
+
+    public function edit(Bill $bill) {
+        return view('bills.edit', [
+            'bill' => $bill
+        ]);
     }
 }

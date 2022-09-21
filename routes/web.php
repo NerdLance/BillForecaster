@@ -26,6 +26,8 @@ Route::get('/bills', [BillController::class, 'index'])->middleware(['auth'])->na
 
 Route::get('/bills/create', [BillController::class, 'create'])->middleware(['auth'])->name('bills-create');
 
+Route::get('/bills/{bill}/edit', [BillController::class, 'edit'])->middleware(['auth'])->name('bills-edit');
+
 Route::post('/bills', [BillController::class, 'store'])->middleware(['auth'])->name('bills-store');
 
 require __DIR__.'/auth.php';
