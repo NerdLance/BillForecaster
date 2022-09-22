@@ -44,13 +44,13 @@
                 <x-input-label for='weekly_day' :value="__('Weekly Bill Day (required)')" />
                 <select id='weekly_day' name='weekly_day' class='w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
                     <option value=''>Select a Weekday</option>
-                    <option value='sunday'>Sunday</option>
-                    <option value='monday'>Monday</option>
-                    <option value='tuesday'>Tuesday</option>
-                    <option value='wednesday'>Wednesday</option>
-                    <option value='thursday'>Thursday</option>
-                    <option value='friday'>Friday</option>
-                    <option value='saturday'>Saturday</option>
+                    <option value='sunday' {{ $bill->weekly_day == 'sunday' ? 'selected' : '' }}>Sunday</option>
+                    <option value='monday' {{ $bill->weekly_day == 'monday' ? 'selected' : '' }}>Monday</option>
+                    <option value='tuesday' {{ $bill->weekly_day == 'tuesday' ? 'selected' : '' }}>Tuesday</option>
+                    <option value='wednesday' {{ $bill->weekly_day == 'wednesday' ? 'selected' : '' }}>Wednesday</option>
+                    <option value='thursday' {{ $bill->weekly_day == 'thursday' ? 'selected' : '' }}>Thursday</option>
+                    <option value='friday' {{ $bill->weekly_day == 'friday' ? 'selected' : '' }}>Friday</option>
+                    <option value='saturday' {{ $bill->weekly_day == 'saturday' ? 'selected' : '' }}>Saturday</option>
                 </select>
             </div>
             <div class='mt-6'>

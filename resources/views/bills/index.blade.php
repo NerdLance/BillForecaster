@@ -9,15 +9,20 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    <div class='text-center'>
+                        <h3 class='text-3xl mb-4'>All Bills</h3>
+                    </div>
                     @unless ($bills->isEmpty())
                         <div class='grid grid-cols-1 md:grid-cols-4 gap-4'>
                             @foreach ($bills as $bill)
-                                <div class='border rounded border-gray-300 p-4 mb-4 hover:shadow-md transition-all'>
+                                <div class='text-center border rounded border-gray-300 p-4 mb-4 hover:shadow-md transition-all'>
                                     <p class='text-xl'>{{ $bill->title }}</p>
-                                    <p>{{ "$" . $bill->cost . " / " . $bills_suffix[$bill->recurrance]}}</p>
+                                    <p>Cost: {{ "$" . $bill->cost . " / " . $bills_suffix[$bill->recurrance]}}</p>
                                     <p>{{ $bill->start }}</p>
-                                    <p>Next: {{ $bills_next[$bill->id] }}</p>
-                                    <p>Timezone: {{ date_default_timezone_get() }}</p>
+                                    <p>Due Next: {{ $bills_next[$bill->id] }}</p>
+                                    <a href='/bills/{{$bill->id}}/edit'>
+                                        <x-basic-button>Edit Bill</x-basic-button>
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
