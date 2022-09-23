@@ -16,13 +16,19 @@
                         <div class='grid grid-cols-1 md:grid-cols-4 gap-4'>
                             @foreach ($bills as $bill)
                                 <div class='text-center border rounded border-gray-300 p-4 mb-4 hover:shadow-md transition-all'>
-                                    <p class='text-xl'>{{ $bill->title }}</p>
+                                    <p class='text-xl mb-2'>{{ $bill->title }}</p>
                                     <p>Cost: {{ "$" . $bill->cost . " / " . $bills_suffix[$bill->recurrance]}}</p>
-                                    <p>{{ $bill->start }}</p>
                                     <p>Due Next: {{ $bills_next[$bill->id] }}</p>
                                     <a href='/bills/{{$bill->id}}/edit'>
-                                        <x-basic-button>Edit Bill</x-basic-button>
+                                        <x-basic-button class='mt-2'>Edit Bill</x-basic-button>
                                     </a>
+                                    <form method="POST" action="/bills/{{$bill->id}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class='text-red-500 text-sm mt-2 hover:underline'>
+                                            Delete
+                                        </button>
+                                    </form>
                                 </div>
                             @endforeach
                         </div>

@@ -10,7 +10,7 @@ class Bill extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'title', 'description', 'cost', 'recurrance', 'start'];
+    protected $fillable = ['user_id', 'title', 'description', 'cost', 'recurrance', 'start', 'weekly_day'];
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id');

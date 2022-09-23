@@ -63,7 +63,7 @@ class BillController extends Controller
             'start' => ['required', 'date'],
             'weekly_day' => [
                 'required_if:recurrance,weekly', 
-                'in:,sunday,monday,tuesday,wednesday,thursday,friday,saturday'
+                'in:"",sunday,monday,tuesday,wednesday,thursday,friday,saturday'
             ]
         ]);
 
@@ -77,5 +77,14 @@ class BillController extends Controller
         return view('bills.edit', [
             'bill' => $bill
         ]);
+    }
+
+    public function destroy(Bill $bill) {
+        if ($bill->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        $bill->delete();
+        return redirect('/bills')->with('message', 'Bill Successfully Deleted');
     }
 }
