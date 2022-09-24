@@ -30,6 +30,8 @@ Route::get('/bills/{bill}/edit', [BillController::class, 'edit'])->middleware(['
 
 Route::post('/bills', [BillController::class, 'store'])->middleware(['auth'])->name('bills-store');
 
+Route::put('/bills/{bill}', [BillController::class, 'update'])->middleware(['auth'])->name('bills-update');
+
 Route::delete('/bills/{bill}', [BillController::class, 'destroy'])->middleware(['auth'])->name('bills-destroy');
 
 require __DIR__.'/auth.php';

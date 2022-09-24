@@ -9,9 +9,9 @@
         <h3 class='text-xl text-center mb-4 text-gray-800'>Edit Bill: {{ $bill->title }}</h3>
         <x-auth-validation-errors class='mb-4' :errors="$errors" />
             
-        <form method="POST" action="{{ route('bills-store') }}">
+        <form method="POST" action="/bills/{{$bill->id}}">
             @csrf
-
+            @method('PUT')
             <div>
                 <x-input-label for="title" :value="__('Bill Title (required)')" />
                 <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" value="{{ $bill->title }}" required /> 
@@ -44,17 +44,17 @@
                 <x-input-label for='weekly_day' :value="__('Weekly Bill Day (required)')" />
                 <select id='weekly_day' name='weekly_day' class='w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
                     <option value=''>Select a Weekday</option>
-                    <option value='sunday' {{ $bill->weekly_day == 'sunday' ? 'selected' : '' }}>Sunday</option>
-                    <option value='monday' {{ $bill->weekly_day == 'monday' ? 'selected' : '' }}>Monday</option>
-                    <option value='tuesday' {{ $bill->weekly_day == 'tuesday' ? 'selected' : '' }}>Tuesday</option>
-                    <option value='wednesday' {{ $bill->weekly_day == 'wednesday' ? 'selected' : '' }}>Wednesday</option>
-                    <option value='thursday' {{ $bill->weekly_day == 'thursday' ? 'selected' : '' }}>Thursday</option>
-                    <option value='friday' {{ $bill->weekly_day == 'friday' ? 'selected' : '' }}>Friday</option>
-                    <option value='saturday' {{ $bill->weekly_day == 'saturday' ? 'selected' : '' }}>Saturday</option>
+                    <option value='sunday' {{ $bill->day_week == 'sunday' ? 'selected' : '' }}>Sunday</option>
+                    <option value='monday' {{ $bill->day_week == 'monday' ? 'selected' : '' }}>Monday</option>
+                    <option value='tuesday' {{ $bill->day_week == 'tuesday' ? 'selected' : '' }}>Tuesday</option>
+                    <option value='wednesday' {{ $bill->day_week == 'wednesday' ? 'selected' : '' }}>Wednesday</option>
+                    <option value='thursday' {{ $bill->day_week == 'thursday' ? 'selected' : '' }}>Thursday</option>
+                    <option value='friday' {{ $bill->day_week == 'friday' ? 'selected' : '' }}>Friday</option>
+                    <option value='saturday' {{ $bill->day_week == 'saturday' ? 'selected' : '' }}>Saturday</option>
                 </select>
             </div>
             <div class='mt-6'>
-                <x-primary-button>Add Bill</x-primary-button>
+                <x-primary-button>Update Bill</x-primary-button>
             </div>
 
         </form>

@@ -38,6 +38,10 @@ class BillController extends Controller
 
                 $timeBetween = round($timeDiff / (60 * 60 * 24)) . ' days';
             } else {
+                /* Calculate Time Between Now and Due Date */
+                //
+                //
+
                 $timeBetween = 'Calculating';
             }
 
@@ -60,12 +64,15 @@ class BillController extends Controller
             'title' => 'required',
             'cost' => ['required', 'numeric'],
             'recurrance' => ['required', 'in:daily,weekly,monthly,quarterly,yearly'],
-            'start' => ['required', 'date'],
-            'weekly_day' => [
-                'required_if:recurrance,weekly', 
-                'in:"",sunday,monday,tuesday,wednesday,thursday,friday,saturday'
-            ]
+            'start' => ['required', 'date']
         ]);
+
+        $dateToTime = strtotime($request['start']);
+
+        $formFields['day_week'] = date('l', $dateToTime);
+        $formFields['day_month'] = date('j', $dateToTime);
+        $formFields['month'] = date('n', $dateToTime);
+        $formFields['year'] = date('Y', $dateToTime);
 
         $formFields['user_id'] = auth()->id();
 
@@ -77,6 +84,29 @@ class BillController extends Controller
         return view('bills.edit', [
             'bill' => $bill
         ]);
+    }
+
+    public function update(Request $request, Bill $bill) {
+        if ($bill->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        $formFields = $request->validate([
+            'title' => 'required',
+            'cost' => ['required', 'numeric'],
+            'recurrance' => ['required', 'in:one,daily,weekly,monthly,quarterly,yearly'],
+            'start' => ['required', 'date']
+        ]);
+
+        $dateToTime = strtotime($request['start']);
+
+        $formFields['day_week'] = date('l', $dateToTime);
+        $formFields['day_month'] = date('j', $dateToTime);
+        $formFields['month'] = date('n', $dateToTime);
+        $formFields['year'] = date('Y', $dateToTime);
+        
+        $bill->update($formFields);
+        return redirect('/bills')->with('message', 'Bill Successfully Updated');
     }
 
     public function destroy(Bill $bill) {
