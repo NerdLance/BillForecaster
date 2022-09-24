@@ -4,11 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\User;
+use App\Helpers\BillHelpers;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
 {
-    //
+
+    public function daysBetweenTwoDays($day1, $day2) {
+        $timeBetween = 0;
+
+        if ($day1 == $day2) {
+            $timeBetween = 0;
+        } else if ($day1 < $day2) {
+            $timeBetween = ($day2 - $day1);
+        } else if ($day1 > $day2) {
+            $daysInMonth = date('t');
+            $daysLeftThisMonth = $daysInMonth - $day1;
+            $timeBetween = ($daysLeftThisMonth + $day2);
+        }
+
+        return $timeBetween;
+    }
+
+    public function getDaysBetween(Bill $bill) {
+        $dateDay = date('j');
+        $dateWeekday = date('l');
+        $dateMonth = date('n');
+        $dateYear = date('Y');
+
+        $timeBetween = 0;
+        
+        if ($bill->recurrance == 'monthly') {
+            $timeBetween = $this->daysBetweenTwoDays($dateDay, $bill->day_month);
+        } else if ($bill->recurrance == 'weekly') {
+            if ($bill->day_week == $dateWeekday) {
+                $timeBetween = 0;
+            } else {
+                $nextWeekdayString = 'next ' . strtolower($bill->day_week);
+                $nextWeekdayTime = strtotime($nextWeekdayString);
+                $nextWeekdayDay = date('j', $nextWeekdayTime);
+                $timeBetween = $this->daysBetweenTwoDays($dateDay, $nextWeekdayDay);
+            }
+        }
+
+        return $timeBetween;
+    }
 
     public function index() {
         $billsSuffix = [
@@ -23,26 +63,15 @@ class BillController extends Controller
         $bills = auth()->user()->bills()->get();
 
         $billsNextDates = [];
+        $billsThisWeek = [];
+        $billsThisWeekTotal = 0;
 
         foreach ($bills as $bill) {
-            $dateDay = date('j');
-            $dateMonth = date('n');
-            $dateYear = date('Y');
-            $dateFull = $dateYear . "-" . $dateMonth . "-" . $dateDay;
+            $timeBetween = $this->getDaysBetween($bill);
 
-            $timeBetween = '';
-            if (strtotime($bill->start) > strtotime($dateFull)) {
-                $now = time();
-                $next = strtotime($bill->start);
-                $timeDiff = $next - $now;
-
-                $timeBetween = round($timeDiff / (60 * 60 * 24)) . ' days';
-            } else {
-                /* Calculate Time Between Now and Due Date */
-                //
-                //
-
-                $timeBetween = 'Calculating';
+            if ($timeBetween <= 7) {
+                $billsThisWeek[] = $bill;
+                $billsThisWeekTotal += $bill->cost;
             }
 
             $billsNextDates[$bill->id] = $timeBetween;
@@ -51,7 +80,9 @@ class BillController extends Controller
         return view('bills.index', [
             'bills' => $bills,
             'bills_suffix' => $billsSuffix,
-            'bills_next' => $billsNextDates
+            'bills_next' => $billsNextDates,
+            'bills_this_week' => $billsThisWeek,
+            'bills_this_week_total' => $billsThisWeekTotal
         ]);
     }
 
