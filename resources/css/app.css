@@ -1,12 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-#weekly-day-container {
-    display: none;
-}
-
-#weekly-day-container.show {
-    display: block;
-}
