@@ -40,19 +40,7 @@
                     </select>
                 {{-- </div> --}}
             </div>
-            <div class='mt-4' id='weekly-day-container'>
-                <x-input-label for='weekly_day' :value="__('Weekly Bill Day (required)')" />
-                <select id='weekly_day' name='weekly_day' class='w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'>
-                    <option value=''>Select a Weekday</option>
-                    <option value='sunday' {{ $bill->day_week == 'sunday' ? 'selected' : '' }}>Sunday</option>
-                    <option value='monday' {{ $bill->day_week == 'monday' ? 'selected' : '' }}>Monday</option>
-                    <option value='tuesday' {{ $bill->day_week == 'tuesday' ? 'selected' : '' }}>Tuesday</option>
-                    <option value='wednesday' {{ $bill->day_week == 'wednesday' ? 'selected' : '' }}>Wednesday</option>
-                    <option value='thursday' {{ $bill->day_week == 'thursday' ? 'selected' : '' }}>Thursday</option>
-                    <option value='friday' {{ $bill->day_week == 'friday' ? 'selected' : '' }}>Friday</option>
-                    <option value='saturday' {{ $bill->day_week == 'saturday' ? 'selected' : '' }}>Saturday</option>
-                </select>
-            </div>
+            
             <div class='mt-6'>
                 <x-primary-button>Update Bill</x-primary-button>
             </div>
@@ -60,5 +48,4 @@
         </form>
     </x-form-card>
 
-    <script type='text/javascript' src='{{ asset("assets/js/add-bill.js") }}'></script>
 </x-app-layout>
