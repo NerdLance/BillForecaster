@@ -60,5 +60,16 @@
                 </div>
             </div>
         </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <div class='text-center'>
+                        <a href='{{ route("bills-create") }}'>
+                            <x-basic-button class='text-xl'>Add a Bill</x-basic-button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </x-app-layout>
